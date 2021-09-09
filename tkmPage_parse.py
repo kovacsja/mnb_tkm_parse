@@ -6,7 +6,7 @@ import numpy as np
 url: str = (
     "https://tkm.mnb.hu/?it=1&sp=&fpt=1&page=1&pagesize=100&orderCol=5&desc=False"
 )
-browser = webdriver.Chrome("/home/honfi/Documents/Python/chromedriver")
+browser = webdriver.Chrome("chromedriver")
 tkm_html = browser.get(url)
 browser.implicitly_wait(10)
 institutes = browser.find_elements_by_class_name("institute-name")
