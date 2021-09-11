@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 import pandas as pd
 import numpy as np
+from datetime import datetime
 
 url: str = (
     "https://tkm.mnb.hu/?it=1&sp=&fpt=1&page=1&pagesize=100&orderCol=5&desc=False"
@@ -35,7 +36,11 @@ for r in rows:
         df_input.append(res)
 
 df = pd.DataFrame(df_input)
+
+# fejlécek beállítása
 df.columns = ["Intézmény", "Termék", "Alap", "Y5", "Y10", "Y15", "Y20", "Y30"]
+
+# szöveges számformátumok átalakítása
 df["Y5"] = df["Y5"].str.replace("%", "")
 df["Y10"] = df["Y10"].str.replace("%", "")
 df["Y15"] = df["Y15"].str.replace("%", "")
@@ -48,12 +53,17 @@ df["Y15"] = df["Y15"].str.replace(",", ".")
 df["Y20"] = df["Y20"].str.replace(",", ".")
 df["Y30"] = df["Y30"].str.replace(",", ".")
 
+# üres értékek cseréje
 df = df.replace("", np.NaN)
 
+# ha valami még mindig szöveg maradt, akkor itt meg fog akadni a folyamat
 df["Y5"] = df["Y5"].astype(float)
 df["Y10"] = df["Y10"].astype(float)
 df["Y15"] = df["Y15"].astype(float)
 df["Y20"] = df["Y20"].astype(float)
 df["Y30"] = df["Y30"].astype(float)
 
-df.to_excel("tkm.xlsx")
+# az eredménytábla kimentése excelbe
+td: str = datetime.now().strftime("%Y%m%d")
+
+df.to_excel(f"tkm_{td}.xlsx")
