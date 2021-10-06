@@ -7,6 +7,7 @@ from datetime import datetime
 url: str = (
     "https://tkm.mnb.hu/?it=1&sp=&fpt=1&page=1&pagesize=100&orderCol=5&desc=False"
 )
+
 browser = webdriver.Chrome("chromedriver")
 tkm_html = browser.get(url)
 browser.implicitly_wait(10)
